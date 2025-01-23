@@ -1,5 +1,7 @@
 # Quiz app
 ### Desktop application I created to help learn vocabulary. To run application two modules must be installed: [NumPy](https://numpy.org) and [ttkbootstrap](https://ttkbootstrap.readthedocs.io/en/latest/).
+
+### Layout
 ![Quiz1](https://github.com/nieinter/images/blob/main/quiz1solar.png)
 
 # Features
