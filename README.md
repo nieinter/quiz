@@ -19,3 +19,8 @@
 ### - quick swap of questions and answers
 
 ![QuizTable](https://github.com/nieinter/images/blob/main/ezgif.com-animated-gif-maker%20(2).gif)
+
+# Used Python modules:
+
+- [ttkbootstrap](https://ttkbootstrap.readthedocs.io/en/latest/)
+- [NumPy](https://numpy.org)
