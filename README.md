@@ -33,3 +33,5 @@
 - [ttkbootstrap](https://ttkbootstrap.readthedocs.io/en/latest/)
 - [tkinter](https://docs.python.org/3/library/tkinter.html)
 - [NumPy](https://numpy.org)
+- [os](https://docs.python.org/3/library/os.html)
+- [random](https://docs.python.org/3/library/random.html)
