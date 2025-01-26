@@ -20,7 +20,13 @@
 
 ### - quick swap of questions and answers
 
-![QuizTable](https://github.com/nieinter/images/blob/main/ezgif.com-animated-gif-maker%20(2).gif)
+![QuizSwap](https://github.com/nieinter/images/blob/main/ezgif.com-animated-gif-maker%20(2).gif)
+
+# Adding words
+
+### To add words, you need to create a .txt file and enter the words one below other e.g:
+
+![QuizTxt](https://github.com/nieinter/images/blob/main/txt_quiz.png)
 
 # Used Python modules:
 
