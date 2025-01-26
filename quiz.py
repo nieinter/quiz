@@ -1,7 +1,6 @@
 import ttkbootstrap as ttk
 from random import randint
-from tkinter import END
-from tkinter import messagebox
+from tkinter import END, messagebox
 import numpy as np
 from tkinter.filedialog import askopenfilename
 from ttkbootstrap import Style
@@ -12,21 +11,32 @@ from PIL import Image
 Image.CUBIC = Image.BICUBIC
 
 
+# main class
 class App(ttk.Window):
     def __init__(self):
         super().__init__()
+
+        # window parameters
         self.minsize(1500, 1000)
         self.title("Quiz")
+
+        # variables initialization
         self.__lista_e = np.array([])
         self.__lista_p = np.array([])
         self.__random_pick = 0
         self.__progress = 0
-        self.theme_reader()
-        self.state('zoomed')
 
+        self.theme_reader()
+        self.state('zoomed')  # maximizes window
+
+        # creating style for button widget
         style_b = Style()
         style_b.configure("Custom.TButton", font=(None, 12))
+        # creating style for treeview headings
+        style = ttk.Style()
+        style.configure("Treeview.Heading", font=(None, 12))
 
+        # widgets
         button_choose = ttk.Button(self,
                                    text="➕",
                                    width=3,
@@ -62,9 +72,6 @@ class App(ttk.Window):
                                    state="disabled"
                                    )
 
-        style = ttk.Style()
-        style.configure("Treeview.Heading", font=(None, 12))
-
         self.__treeview = ttk.Treeview(self,
                                        columns=("W1", "D", "W2"),
                                        show="headings")
@@ -85,10 +92,12 @@ class App(ttk.Window):
                                         metersize=200
                                         )
 
+        # action bindings
         self.__entry_e.bind("<Return>", self.check)
         self.__entry_e.bind("<KeyPress>", self.grow)
         self.__combobox_theme.bind("<<ComboboxSelected>>", self.theme_selector)
 
+        # layout - grid configuration and widgets placement
         self.columnconfigure(0, weight=1, uniform="a")
         self.columnconfigure(1, weight=1, uniform="a")
         self.columnconfigure(2, weight=16, uniform="a")
@@ -108,10 +117,12 @@ class App(ttk.Window):
         self.__treeview.grid(row=0, column=3, rowspan=3, sticky="news")
         self.__progress_bar.grid(row=3, column=3, sticky="news", pady=20)
 
+    # gets index of current theme
     def cur_theme(self) -> int:
         theme_name = self.style.theme_use()
         return list(self.style.theme_names()).index(theme_name)
 
+    # reads last theme form theme.txt file
     def theme_reader(self) -> None:
         try:
             path = getcwd() + "\\theme.txt"
@@ -119,14 +130,16 @@ class App(ttk.Window):
                 theme = str(f.readline()).strip()
                 self.style.theme_use(theme)
         except FileNotFoundError:
-            self.style.theme_use("superhero")
+            self.style.theme_use("superhero")  # sets theme superhero if no file found
 
+    # handle theme selection from combobox
     def theme_selector(self, *args, **kwargs) -> None:
         theme_selected = str(self.__combobox_theme.get())
-        self.style.theme_use(theme_selected)
+        self.style.theme_use(theme_selected)  # setting selected theme
         with open("theme.txt", "w") as f:
-            f.write(theme_selected)
+            f.write(theme_selected)  # saving currently used theme in theme.txt
 
+    # adjust width of entry based on text length
     def grow(self, *args, **kwargs) -> None:
         length = len(self.__entry_e.get())
         if length <= 15:
@@ -134,10 +147,13 @@ class App(ttk.Window):
         elif 30 > length > 16:
             self.__entry_e.configure(width=len(self.__entry_e.get()))
 
+    # handle file selection and load the word list
     def choose(self, *args, **kwargs) -> None:
         try:
             with open(self.open(), encoding="UTF-8") as f:
                 lines = f.readlines()
+
+            # clearing variables and widgets
             self.__lista_e = np.array([])
             self.__lista_p = np.array([])
             self.__random_pick = 0
@@ -156,6 +172,7 @@ class App(ttk.Window):
                 if i.strip():
                     lines_s = np.append(lines_s, i)
 
+            # processing lines from .txt file
             for i, w in enumerate(lines_s):
                 if i % 2 == 0:
                     self.__lista_e = np.append(self.__lista_e,
@@ -171,6 +188,7 @@ class App(ttk.Window):
         except TypeError:
             pass
 
+    # swaps answers with questions or questions with answers
     def swap(self, *args, **kwargs) -> None:
         if self.__lista_e.size != 0 and self.__lista_p.size != 0:
             self.__lista_p, self.__lista_e = self.__lista_e, self.__lista_p
@@ -184,6 +202,7 @@ class App(ttk.Window):
             self.__progress_bar.configure(amountused=self.__progress)
             self.los()
 
+    # handle file opening
     @staticmethod
     def open() -> str:
         p = askopenfilename(filetypes=[("Text files", ".txt")])
@@ -194,10 +213,12 @@ class App(ttk.Window):
         else:
             messagebox.showerror("Nie obsługiwany rodzaj plików", "Wybierz plik z rozszerzeniem txt")
 
+    # draws random word from list
     def los(self) -> None:
         self.__random_pick = randint(0, len(self.__lista_p) - 1)
         self.__label_q.configure(text=str(self.__lista_p[self.__random_pick]))
 
+    # checks user's answers and update treeview and meter
     def check(self, *args, **kwargs):
         entry_s = str(self.__entry_e.get()).strip()
 
@@ -211,7 +232,7 @@ class App(ttk.Window):
             self.__progress_bar.configure(amountused=self.__progress)
             self.__lista_p = np.delete(self.__lista_p, self.__random_pick)
             self.__lista_e = np.delete(self.__lista_e, self.__random_pick)
-            if len(self.__lista_e) == 0:
+            if len(self.__lista_e) == 0:  # win condition
                 self.__label_q.configure(text="Wszystko zaliczone :)\n_𝚗𝚘𝚒𝚗𝚝")
                 self.__entry_e.delete(0, END)
                 self.__entry_e.configure(state="disable")
@@ -222,11 +243,12 @@ class App(ttk.Window):
             else:
                 self.los()
         else:
-            messagebox.showinfo("POPRAWNA ODP:", str(self.__lista_e[self.__random_pick]))
+            messagebox.showinfo("POPRAWNA ODP:", str(self.__lista_e[self.__random_pick]))  # correct answer pop-up
             self.los()
         self.__entry_e.delete(0, END)
         self.grow()
 
 
-app = App()
-app.mainloop()
+if __name__ == '__main__':
+    app = App()
+    app.mainloop()
