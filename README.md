@@ -1,5 +1,5 @@
 # Quiz app
-### Desktop application I created to help learn vocabulary. To run application three modules must be installed: [NumPy](https://numpy.org), [ttkbootstrap](https://ttkbootstrap.readthedocs.io/en/latest/) and [tkinter](https://docs.python.org/3/library/tkinter.html).
+### Desktop application I created to help learn vocabulary. To run application three modules must be installed: [NumPy](https://numpy.org), [Pillow](https://pillow.readthedocs.io/en/stable/), [ttkbootstrap](https://ttkbootstrap.readthedocs.io/en/latest/) and [tkinter](https://docs.python.org/3/library/tkinter.html).
 
 ### Layout
 ![Quiz1](https://github.com/nieinter/images/blob/main/quiz1solar.png)
@@ -35,3 +35,4 @@
 - [NumPy](https://numpy.org)
 - [os](https://docs.python.org/3/library/os.html)
 - [random](https://docs.python.org/3/library/random.html)
+- [Pillow](https://pillow.readthedocs.io/en/stable/)
