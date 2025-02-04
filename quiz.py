@@ -95,6 +95,7 @@ class App(ttk.Window):
         # action bindings
         self.__entry_e.bind("<Return>", self.check)
         self.__entry_e.bind("<KeyPress>", self.grow)
+        self.__entry_e.bind("<KeyRelease>", self.grow)
         self.__combobox_theme.bind("<<ComboboxSelected>>", self.theme_selector)
 
         # layout - grid configuration and widgets placement
