@@ -123,7 +123,7 @@ class App(ttk.Window):
         theme_name = self.style.theme_use()
         return list(self.style.theme_names()).index(theme_name)
 
-    # reads last theme form theme.txt file
+    # reads last theme from theme.txt file
     def theme_reader(self) -> None:
         try:
             path = getcwd() + "\\theme.txt"
